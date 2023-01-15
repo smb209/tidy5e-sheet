@@ -1,6 +1,6 @@
 <form class="{{cssClass}} flexcol" autocomplete="off">
   <div class="tidy5e-sheet tidy5e-npc {{#if actor.flags.tidy5e-sheet.allow-edit}}allow-edit{{/if}}">
-    
+
 		{{!-- Item Info Card --}}
 		<section id="item-info-container">
 			<i class="item-info-container-background fab fa-d-and-d"></i>
@@ -8,16 +8,16 @@
 				<article id="item-info-container-content">
 					<!-- Info Card here -->
 				</article>
-				
+
 				<article class="info-card-hint">
 					<p><span class="key">X</span> {{localize "TIDY5E.ItemCardsKeyHint"}}</p>
 					<p><i class="fas fa-mouse"></i> {{localize "TIDY5E.ItemCardsMouseHint"}}</p>
 				</article>
 			</div>
 		</section>
-    
+
 		{{> "dnd5e.actor-warnings"}}
-    
+
     {{!-- NPC Sheet Header --}}
     <header class="tidy5e-header">
       <section class="profile-wrap">
@@ -159,23 +159,23 @@
               </div>
               <footer class="value-footer">
                 <label for="{{@root/appId}}-ini-mod">{{ localize 'TIDY5E.AbbrMod' }}</label>
-                <input id="{{@root/appId}}-ini-mod" class="ini-mod" name="system.attributes.init.value" type="text" placeholder="0" data-dtype="Number" value="{{numberFormat system.attributes.init.value decimals=0 sign=true}}" maxlength="2">
+                <input id="{{@root/appId}}-ini-mod" class="ini-mod" name="system.attributes.init.bonus" type="text" placeholder="0" data-dtype="Number" value="{{numberFormat system.attributes.init.bonus decimals=0 sign=true}}" maxlength="2">
             </footer>
             </li>
           </ul>
 
           {{!-- Ability Scores --}}
           <ul class="ability-scores">
-            {{#each system.abilities as |ability id|}}
+            {{#each abilities as |ability id|}}
             <li class="ability {{#if ability.proficient}}proficient{{/if}}" data-ability="{{id}}">
 							<div class="wrapper" data-ability="{{id}}">
                 <h4 class="ability-name box-title rollable" title="{{ability.label}}">{{ability.abbr}}</h4>
                 <div class="value">
-                  <input class="ability-score" name="system.abilities.{{id}}.value" type="text" value="{{ability.value}}" data-dtype="Number" placeholder="10">
+                  <input class="ability-score" name="abilities.{{id}}.value" type="text" value="{{ability.value}}" data-dtype="Number" placeholder="10">
                 </div>
                 <div class="ability-modifiers value-footer">
                   <span class="ability-mod rollable" title="{{ localize 'DND5E.AbilityModifier' }}">{{numberFormat ability.mod decimals=0 sign=true}}</span>
-                  <input type="hidden" name="system.abilities.{{id}}.proficient" value="{{ability.baseProf}}" data-dtype="Number">
+                  <input type="hidden" name="abilities.{{id}}.proficient" value="{{ability.baseProf}}" data-dtype="Number">
                   <a class="proficiency-toggle ability-proficiency" title="{{ localize 'DND5E.Proficiency' }}">
                   {{{ability.icon}}}</a>
                   <span class="ability-save rollable" title="{{ localize 'DND5E.ActionSave' }}">{{numberFormat ability.save decimals=0 sign=true}}</span>
@@ -183,7 +183,7 @@
                 <span class="mod-label ability-mod-label">{{ localize 'TIDY5E.AbbrMod' }}</span>
                 <span class="mod-label save-mod-label">{{ localize 'TIDY5E.AbbrSavingThrow' }}</span>
               </div>
-              
+
               <a class="config-button" data-action="ability" title="{{localize 'DND5E.AbilityConfigure'}}"><i class="fas fa-cog"></i></a>
             </li>
             {{/each}}
@@ -214,10 +214,10 @@
         <div class="left-pane">
           {{!-- Skills --}}
           <ul class="skills-list {{#if actor.flags.tidy5e-sheet.npcSkillsExpanded}}expanded{{/if}} {{#if actor.flags.tidy5e-sheet.npcSkillsAlwaysVisible}}.always-visible{{/if}}">
-            {{#each system.skills as |skill s|}}
+            {{#each skills as |skill s|}}
             <li class="skill {{#if skill.value}}proficient{{/if}}" data-skill="{{s}}">
 							<a class="config-button" data-action="skill" title="{{localize 'DND5E.SkillConfigure'}}"><i class="fas fa-cog"></i></a>
-              <input type="hidden" name="system.skills.{{s}}.value" value="{{skill.baseValue}}" data-dtype="Number">
+              <input type="hidden" name="skills.{{s}}.value" value="{{skill.baseValue}}" data-dtype="Number">
               <a class="proficiency-toggle skill-proficiency" title="{{skill.hover}}">{{{skill.icon}}}</a>
               <h4 class="skill-name rollable">{{skill.label}}</h4>
               <span class="skill-ability">{{skill.ability}}</span>
@@ -265,13 +265,13 @@
               </div>
             </div>
           </div>
-          
+
           {{!-- Alternative Trait Position --}}
 					<div class="alt-trait-pos"></div>
 
           {{> "modules/tidy5e-sheet/templates/actors/parts/tidy5e-features.html" sections=features}}
 
-          <div class="inventory-currency">  
+          <div class="inventory-currency">
             <ul class="currency">
               <li class="currency-header" title="{{localize 'DND5E.Currency'}}">
                 <i class="fas fa-coins"></i>
@@ -289,7 +289,7 @@
           {{> "modules/tidy5e-sheet/templates/actors/parts/tidy5e-npc-spellbook.html"}}
           {{/if}}
         </section>
-        
+
       </div>
 
       {{#unless @root/hideSpellbookTabNpc}}
@@ -355,33 +355,33 @@
         <div class="left-notes note-entries">
           <article>
             <div class="section-titles">
-              <input type="text" name="system.details.notes1name" value="{{system.details.notes1name}}" placeholder="{{ localize 'TIDY5E.JournalPoi' }}"/>
+              <input type="text" name="actor.flags.tidy5e-sheet.details.notes1name" value="{{actor.flags.tidy5e-sheet.details.notes1name}}" placeholder="{{ localize 'TIDY5E.JournalPoi' }}"/>
             </div>
-            {{editor system.details.notes1.value target="system.details.notes1.value" button=true editable=editable engine="prosemirror" collaborate=false}}
+            {{editor actor.flags.tidy5e-sheet.details.notes1.value target="actor.flags.tidy5e-sheet.details.notes1.value" button=true editable=editable engine="prosemirror" collaborate=false}}
           </article>
           <article>
             <div class="section-titles">
-              <input type="text" name="system.details.notes2name" value="{{system.details.notes2name}}" placeholder="{{ localize 'TIDY5E.JournalLoi' }}"/>
+              <input type="text" name="actor.flags.tidy5e-sheet.details.notes2name" value="{{actor.flags.tidy5e-sheet.details.notes2name}}" placeholder="{{ localize 'TIDY5E.JournalLoi' }}"/>
             </div>
-            {{editor system.details.notes2.value target="system.details.notes2.value" button=true editable=editable engine="prosemirror" collaborate=false}}
+            {{editor actor.flags.tidy5e-sheet.details.notes2.value target="actor.flags.tidy5e-sheet.details.notes2.value" button=true editable=editable engine="prosemirror" collaborate=false}}
           </article>
           <article>
             <div class="section-titles">
-              <input type="text" name="system.details.notes3name" value="{{system.details.notes3name}}" placeholder="{{ localize 'TIDY5E.JournalQuests' }}"/>
+              <input type="text" name="actor.flags.tidy5e-sheet.details.notes3name" value="{{actor.flags.tidy5e-sheet.details.notes3name}}" placeholder="{{ localize 'TIDY5E.JournalQuests' }}"/>
             </div>
-            {{editor system.details.notes3.value target="system.details.notes3.value" button=true editable=editable engine="prosemirror" collaborate=false}}
+            {{editor actor.flags.tidy5e-sheet.details.notes3.value target="actor.flags.tidy5e-sheet.details.notes3.value" button=true editable=editable engine="prosemirror" collaborate=false}}
           </article>
           <article>
             <div class="section-titles">
-              <input type="text" name="system.details.notes4name" value="{{system.details.notes4name}}" placeholder="{{ localize 'TIDY5E.JournalMisc' }}"/>
+              <input type="text" name="actor.flags.tidy5e-sheet.details.notes4name" value="{{actor.flags.tidy5e-sheet.details.notes4name}}" placeholder="{{ localize 'TIDY5E.JournalMisc' }}"/>
             </div>
-            {{editor system.details.notes4.value target="system.details.notes4.value" button=true editable=editable engine="prosemirror" collaborate=false}}
+            {{editor actor.flags.tidy5e-sheet.details.notes4.value target="actor.flags.tidy5e-sheet.details.notes4.value" button=true editable=editable engine="prosemirror" collaborate=false}}
           </article>
         </div>
         <div class="right-notes note-entries">
           <article class="journal-notes">
             <div class="section-titles">{{ localize 'TIDY5E.JournalEntries' }}</div>
-            {{editor journalHTML target="system.details.notes.value" button=true editable=editable engine="prosemirror" collaborate=false}}
+            {{editor journalHTML target="actor.flags.tidy5e-sheet.details.notes.value" button=true editable=editable engine="prosemirror" collaborate=false}}
           </article>
         </div>
       </div>

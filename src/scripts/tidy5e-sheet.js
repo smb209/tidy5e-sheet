@@ -58,12 +58,12 @@ export class Tidy5eSheet extends dnd5e.applications.actor
   async getData() {
     const context = await super.getData();
 
-    Object.keys(context.system.abilities).forEach((id) => {
-      context.system.abilities[id].abbr = CONFIG.DND5E.abilityAbbreviations[id];
+    Object.keys(context.abilities).forEach((id) => {
+      context.abilities[id].abbr = CONFIG.DND5E.abilityAbbreviations[id];
     });
 
     // Journal HTML enrichment
-    context.journalHTML = await TextEditor.enrichHTML(context.system.details.notes?.value, {
+    context.journalHTML = await TextEditor.enrichHTML(context.actor.flags['tidy5e-sheet']?.details?.notes?.value, {
       secrets: this.actor.isOwner,
       rollData: context.rollData,
       async: true,
@@ -915,7 +915,7 @@ Hooks.on('renderAbilityUseDialog', (application, html, context) => {
                 availableTextSlotsFounded = lastMatch;
               }
             }
-            
+
             if(!availableTextSlotsFounded){
               console.warn(`Cannot find the spell slots on text '${$(this).text()}' with ${/\(\d+\s\w+\)/}`);
             }

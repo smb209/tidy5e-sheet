@@ -30,10 +30,10 @@ export default class Tidy5eNPC extends dnd5e.applications.actor
    * @return {Object}
    */
   static get defaultOptions() {
-    let defaultTab = game.settings.get("tidy5e-sheet", "defaultActionsTab") != 'default' 
+    let defaultTab = game.settings.get("tidy5e-sheet", "defaultActionsTab") != 'default'
       ? game.settings.get("tidy5e-sheet", "defaultActionsTab")
       : 'attributes' ;
-		if (!game.modules.get('character-actions-list-5e')?.active && 
+		if (!game.modules.get('character-actions-list-5e')?.active &&
       game.settings.get("tidy5e-sheet", "defaultActionsTab") == 'actions') {
       defaultTab = 'attributes';
     }
@@ -114,9 +114,6 @@ export default class Tidy5eNPC extends dnd5e.applications.actor
           item.isOnCooldown &&
           item.system.uses.per &&
           item.system.uses.value > 0;
-        item.hasTarget =
-          !!item.system.target &&
-          !["none", ""].includes(item.system.target.type);
 
         // Item toggle state
         this._prepareItemToggleState(item);
@@ -210,12 +207,12 @@ export default class Tidy5eNPC extends dnd5e.applications.actor
   async getData(options) {
     const context = await super.getData(options);
 
-    Object.keys(context.system.abilities).forEach((id) => {
-      context.system.abilities[id].abbr = CONFIG.DND5E.abilityAbbreviations[id];
+    Object.keys(context.abilities).forEach((id) => {
+      context.abilities[id].abbr = CONFIG.DND5E.abilityAbbreviations[id];
     });
 
     // Journal HTML enrichment
-    context.journalHTML = await TextEditor.enrichHTML(context.system.details.notes?.value, {
+    context.journalHTML = await TextEditor.enrichHTML(context.actor.flags['tidy5e-sheet']?.details?.notes?.value, {
       secrets: this.actor.isOwner,
       rollData: context.rollData,
       async: true,
